@@ -5,10 +5,19 @@
 #ifndef BATTLETANK_GAME_H
 #define BATTLETANK_GAME_H
 
-namespace battletank {
+#include "SFML/Graphics.hpp"
+#include "SFML/System.hpp"
+#include "Entities/PlayerTank.h"
 
+namespace battletank {
     class Game {
     private:
+        sf::RenderWindow* window;
+        PlayerTank* playerTank;
+
+        // Methods
+        void initWindow();
+        void initPlayerTank();
 
     public:
         Game();
@@ -17,6 +26,9 @@ namespace battletank {
         // Accessors
 
         // Methods
+        void run();
+        void update();
+        void render();
     };
 
 } // battletank

@@ -1,6 +1,11 @@
-#include <iostream>
+#include "Game.h"
+
+using namespace battletank;
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+    Game game;
+
+    game.run();
+
     return 0;
 }
