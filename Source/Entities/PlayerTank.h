@@ -15,8 +15,8 @@ namespace battletank {
     private:
         sf::Sprite sprite;
         sf::Texture texture;
-        float movementSpeed = 6.f;
-        float rotationSpeed = 3.f;
+        float movementSpeed = 0.5f;
+        float rotationSpeed = 1.f;
 
         // Methods
         void initTexture();
@@ -27,13 +27,14 @@ namespace battletank {
         virtual ~PlayerTank();
 
         // Accessors
+        sf::FloatRect getGlobalBounds() const { return this->sprite.getGlobalBounds(); }
+        sf::Vector2f getPosition() const { return this->sprite.getPosition(); }
 
         // Methods
         void update();
         void render(sf::RenderTarget& target);
         void move(const float dirX, const float dirY);
         void rotate(const float degrees);
-
     };
 
 } // battletank

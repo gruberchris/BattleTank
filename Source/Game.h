@@ -8,15 +8,19 @@
 #include "SFML/Graphics.hpp"
 #include "SFML/System.hpp"
 #include "Entities/PlayerTank.h"
+#include "Entities/TankShell.h"
 
 namespace battletank {
     class Game {
     private:
         sf::RenderWindow* window;
         PlayerTank* playerTank;
+        std::map<std::string, sf::Texture*> textures;
+        std::vector<TankShell*> tankShells;
 
         // Methods
         void initWindow();
+        void initTextures();
         void initPlayerTank();
 
     public:
@@ -29,6 +33,9 @@ namespace battletank {
         void run();
         void update();
         void render();
+        void updatePollEvents();
+        void updateInput();
+        void updateTankShells();
     };
 
 } // battletank
