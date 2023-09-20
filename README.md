@@ -8,8 +8,8 @@ Battle Tank is a single player game where the player controls a tank and has to 
 |---------------|---------------------------------|
 | `W`           | Move forward                    |
 | `S`           | Move backward                   |
-| `A`           | Turn left                       |
-| `D`           | Turn right                      |
+| `A`           | Rotate tank counter-clockwise   |
+| `D`           | Rotate tank clockwise           |
 | `Right Arrow` | Rotate turret clockwise         |
 | `Left Arrow`  | Rotate turret counter-clockwise |
 | `Space`       | Fire projectile                 |
