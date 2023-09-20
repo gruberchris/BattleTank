@@ -20,8 +20,6 @@ namespace battletank {
     }
 
     PlayerTank::PlayerTank() {
-        this->movementSpeed = 6.f;
-        this->rotationSpeed = 3.f;
         this->initTexture();
         this->initSprite();
     }

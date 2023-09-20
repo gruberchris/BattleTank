@@ -15,8 +15,8 @@ namespace battletank {
     private:
         sf::Sprite sprite;
         sf::Texture texture;
-        float movementSpeed;
-        float rotationSpeed;
+        float movementSpeed = 6.f;
+        float rotationSpeed = 3.f;
 
         // Methods
         void initTexture();
