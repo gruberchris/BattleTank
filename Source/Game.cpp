@@ -99,14 +99,28 @@ namespace battletank {
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
             this->tankShells.push_back(new TankShell(this->textures["TANK_SHELL"], this->playerTank->getPosition().x, this->playerTank->getPosition().y, 0.f, -1.f, 3.f));
-            //this->tankShells.push_back(new TankShell(this->textures["TANK_SHELL"], 0.f, 0.f, 0.f, 0.f, 0.f));
-            std::cout << "Tank shells: " << this->tankShells.size() << std::endl;
         }
     }
 
     void Game::updateTankShells() {
+        unsigned counter = 0;
+
         for (auto *shell : this->tankShells) {
             shell->update();
+
+            if (shell->isOutOfView(this->window)) {
+                // Delete tank shell
+                delete this->tankShells.at(counter);
+
+                // Cull tank shell from vector as it is out of bounds
+                this->tankShells.erase(this->tankShells.begin() + counter);
+
+                --counter;
+            }
+
+            std::cout << this->tankShells.size() << " tank shells remaining." << std::endl;
+
+            ++counter;
         }
     }
 } // battletank

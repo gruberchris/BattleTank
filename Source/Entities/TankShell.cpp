@@ -33,4 +33,24 @@ namespace battletank {
         void TankShell::render(sf::RenderTarget* target) {
             target->draw(this->sprite);
         }
+
+    bool TankShell::isOutOfViewTop() {
+        return this->sprite.getPosition().y + this->sprite.getGlobalBounds().height < 0.f;
+    }
+
+    bool TankShell::isOutOfViewBottom(sf::RenderTarget* target) {
+        return this->getGlobalBounds().top > target->getSize().y;
+    }
+
+    bool TankShell::isOutOfViewLeft() {
+        return this->getGlobalBounds().left +this->getGlobalBounds().width < 0.f;
+    }
+
+    bool TankShell::isOutOfViewRight(sf::RenderTarget* target) {
+        return this->getGlobalBounds().left > target->getSize().x;
+    }
+
+    bool TankShell::isOutOfView(sf::RenderTarget* target) {
+        return this->isOutOfViewTop() || this->isOutOfViewBottom(target) || this->isOutOfViewLeft() || this->isOutOfViewRight(target);
+    }
 } // battletank

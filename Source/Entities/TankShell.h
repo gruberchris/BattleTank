@@ -21,10 +21,16 @@ namespace battletank {
         virtual ~TankShell();
 
         // Accessors
+        sf::FloatRect getGlobalBounds() const { return this->sprite.getGlobalBounds(); }
 
         // Methods
         void update();
         void render(sf::RenderTarget* target);
+        bool isOutOfViewTop();
+        bool isOutOfViewBottom(sf::RenderTarget* target);
+        bool isOutOfViewLeft();
+        bool isOutOfViewRight(sf::RenderTarget* target);
+        bool isOutOfView(sf::RenderTarget* target);
     };
 
 } // battletank
