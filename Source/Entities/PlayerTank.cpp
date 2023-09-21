@@ -35,6 +35,8 @@ namespace battletank {
 
     void PlayerTank::updateAttack() {
         if (this->attackCooldown < this->attackCooldownMax) {
+            // This controls the attack rate. The smaller attackRateOfFire is, the slower the attack rate is because
+            // it is taking more time to increment attackCooldown to equal attackCooldownMax.
             this->attackCooldown += attackRateOfFire;
         }
     }
@@ -44,6 +46,7 @@ namespace battletank {
             return false;
         }
 
+        // TODO: move this to a proper tank "shoot" method
         this->attackCooldown = 0.f;
 
         return true;
