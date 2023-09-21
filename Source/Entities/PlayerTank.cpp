@@ -22,6 +22,7 @@ namespace battletank {
     PlayerTank::PlayerTank() {
         this->initTexture();
         this->initSprite();
+        this->attackCooldown = this->attackCooldownMax;
     }
 
     PlayerTank::~PlayerTank() {
@@ -29,7 +30,23 @@ namespace battletank {
     }
 
     void PlayerTank::update() {
+        this->updateAttack();
+    }
 
+    void PlayerTank::updateAttack() {
+        if (this->attackCooldown < this->attackCooldownMax) {
+            this->attackCooldown += attackRateOfFire;
+        }
+    }
+
+    bool PlayerTank::canAttack() {
+        if (this->attackCooldown < this->attackCooldownMax) {
+            return false;
+        }
+
+        this->attackCooldown = 0.f;
+
+        return true;
     }
 
     void PlayerTank::render(sf::RenderTarget &target) {

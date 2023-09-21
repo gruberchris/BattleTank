@@ -17,6 +17,9 @@ namespace battletank {
         sf::Texture texture;
         float movementSpeed = 0.5f;
         float rotationSpeed = 1.f;
+        float attackCooldownMax = 10.f;
+        float attackCooldown = 0.f;
+        const float attackRateOfFire = 0.035f;
 
         // Methods
         void initTexture();
@@ -32,6 +35,8 @@ namespace battletank {
 
         // Methods
         void update();
+        void updateAttack();
+        bool canAttack();
         void render(sf::RenderTarget& target);
         void move(const float dirX, const float dirY);
         void rotate(const float degrees);

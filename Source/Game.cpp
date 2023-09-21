@@ -55,6 +55,7 @@ namespace battletank {
     void Game::update() {
         this->updatePollEvents();
         this->updateInput();
+        this->playerTank->update();
         this->updateTankShells();
     }
 
@@ -97,7 +98,7 @@ namespace battletank {
             this->playerTank->move(0.f, 1.f);
         }
 
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && this->playerTank->canAttack()) {
             this->tankShells.push_back(new TankShell(this->textures["TANK_SHELL"], this->playerTank->getPosition().x, this->playerTank->getPosition().y, 0.f, -1.f, 3.f));
         }
     }
