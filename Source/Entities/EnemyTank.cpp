@@ -8,9 +8,7 @@
 namespace battletank {
     EnemyTank::EnemyTank(float posX, float posY) {
         initTexture();
-        initSprite();
-
-        this->sprite.setPosition(posX, posY);
+        initSprite(posX, posY);
     }
 
     EnemyTank::~EnemyTank() {
@@ -23,11 +21,11 @@ namespace battletank {
         }
     }
 
-    void EnemyTank::initSprite() {
+    void EnemyTank::initSprite(float posX, float posY) {
         this->sprite.setTexture(this->texture);
         this->sprite.scale(0.1f, 0.1f);
         this->sprite.setOrigin(this->sprite.getLocalBounds().width / 2.f, this->sprite.getLocalBounds().height / 2.f);
-        this->sprite.setPosition(400.f, 400.f);
+        this->sprite.setPosition(posX, posY);
     }
 
     void EnemyTank::update() {

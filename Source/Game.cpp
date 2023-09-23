@@ -144,7 +144,7 @@ namespace battletank {
             enemyTank->update();
 
             if (enemyTank->canAttack()) {
-                this->tankShells.push_back(new TankShell(this->textures["TANK_SHELL"], enemyTank->getPosition().x, enemyTank->getPosition().y, 0.f, 1.f, 3.f));
+                this->tankShells.push_back(new TankShell(this->textures["TANK_SHELL"], enemyTank->getPosition().x, enemyTank->getPosition().y, 0.f, -1.f, 3.f));
             }
 
             ++counter;

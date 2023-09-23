@@ -28,7 +28,7 @@ namespace battletank {
 
         // Methods
         void initTexture();
-        void initSprite();
+        void initSprite(float posX, float posY);
 
     public:
         EnemyTank(float posX, float posY);
