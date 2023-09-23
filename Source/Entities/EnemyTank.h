@@ -28,15 +28,17 @@ namespace battletank {
 
         // Methods
         void initTexture();
-        void initSprite(float posX, float posY);
+        void initSprite(float posX, float posY, float rotation);
 
     public:
-        EnemyTank(float posX, float posY);
+        EnemyTank(float posX, float posY, float rotation);
         virtual ~EnemyTank();
 
         // Accessors
         sf::FloatRect getGlobalBounds() const { return this->sprite.getGlobalBounds(); }
         sf::Vector2f getPosition() const { return this->sprite.getPosition(); }
+        float getRotation() const { return this->sprite.getRotation(); }
+        sf::Vector2f getOrigin() const { return this->sprite.getOrigin(); }
 
         // Methods
         void update();

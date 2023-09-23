@@ -6,9 +6,9 @@
 #include "EnemyTank.h"
 
 namespace battletank {
-    EnemyTank::EnemyTank(float posX, float posY) {
+    EnemyTank::EnemyTank(float posX, float posY, float rotation) {
         initTexture();
-        initSprite(posX, posY);
+        initSprite(posX, posY, rotation);
     }
 
     EnemyTank::~EnemyTank() {
@@ -21,11 +21,12 @@ namespace battletank {
         }
     }
 
-    void EnemyTank::initSprite(float posX, float posY) {
+    void EnemyTank::initSprite(float posX, float posY, float rotation) {
         this->sprite.setTexture(this->texture);
         this->sprite.scale(0.1f, 0.1f);
         this->sprite.setOrigin(this->sprite.getLocalBounds().width / 2.f, this->sprite.getLocalBounds().height / 2.f);
         this->sprite.setPosition(posX, posY);
+        this->sprite.setRotation(rotation);
     }
 
     void EnemyTank::update() {

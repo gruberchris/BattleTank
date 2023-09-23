@@ -6,16 +6,17 @@
 
 namespace battletank {
         TankShell::TankShell() {
-            this->sprite.setPosition(0.f, 0.f);
             this->sprite.setScale(0.1f, 0.1f);
-            this->sprite.setOrigin(this->sprite.getGlobalBounds().width / 2.f, this->sprite.getGlobalBounds().height / 2.f);
+            this->sprite.setOrigin(this->sprite.getLocalBounds().width / 2.f, this->sprite.getLocalBounds().height / 2.f);
+            this->sprite.setPosition(0.f, 0.f);
         }
 
-        TankShell::TankShell(const sf::Texture* texture, float posX, float posY, float dirX, float dirY, float movementSpeed) {
+        TankShell::TankShell(const sf::Texture* texture, float posX, float posY, float dirX, float dirY, float rotation, float movementSpeed) {
             this->sprite.setTexture(*texture);
+            this->sprite.scale(0.1f, 0.1f);
+            this->sprite.setOrigin(this->sprite.getLocalBounds().width / 2.f, this->sprite.getLocalBounds().height / 2.f);
             this->sprite.setPosition(posX, posY);
-            this->sprite.setScale(0.1f, 0.1f);
-            this->sprite.setOrigin(this->sprite.getGlobalBounds().width / 2.f, this->sprite.getGlobalBounds().height / 2.f);
+            this->sprite.setRotation(rotation);
 
             this->direction.x = dirX;
             this->direction.y = dirY;
@@ -27,7 +28,7 @@ namespace battletank {
         }
 
         void TankShell::update() {
-            this->sprite.move(this->movementSpeed * this->direction);
+            this->sprite.move(this->movementSpeed * this->direction.x, this->movementSpeed * this->direction.y);
         }
 
         void TankShell::render(sf::RenderTarget* target) {

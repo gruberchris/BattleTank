@@ -60,6 +60,14 @@ namespace battletank {
         this->sprite.move(this->movementSpeed * dirX, this->movementSpeed * dirY);
     }
 
+    void PlayerTank::moveForward() {
+        this->move(std::cos((this->sprite.getRotation() - 90) * M_PI / 180.f), std::sin((this->sprite.getRotation() - 90) * M_PI / 180.f));
+    }
+
+    void PlayerTank::moveBackward() {
+        this->move(-std::cos((this->sprite.getRotation() - 90) * M_PI / 180.f), -std::sin((this->sprite.getRotation() - 90) * M_PI / 180.f));
+    }
+
     void PlayerTank::rotate(const float degrees) {
         this->sprite.rotate(this->rotationSpeed * degrees);
     }

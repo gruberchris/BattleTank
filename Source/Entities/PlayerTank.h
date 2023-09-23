@@ -32,12 +32,15 @@ namespace battletank {
         // Accessors
         sf::FloatRect getGlobalBounds() const { return this->sprite.getGlobalBounds(); }
         sf::Vector2f getPosition() const { return this->sprite.getPosition(); }
+        float getRotation() const { return this->sprite.getRotation(); }
 
         // Methods
         void update();
         void updateAttack();
         bool canAttack();
         void render(sf::RenderTarget& target);
+        void moveForward();
+        void moveBackward();
         void move(const float dirX, const float dirY);
         void rotate(const float degrees);
     };

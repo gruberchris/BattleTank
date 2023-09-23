@@ -19,6 +19,7 @@ namespace battletank {
         std::map<std::string, sf::Texture*> textures;
         std::vector<TankShell*> tankShells;
         std::vector<EnemyTank*> enemyTanks;
+        float toRadians = static_cast<float>(M_PI / 180.f);
 
         // Methods
         void initWindow();

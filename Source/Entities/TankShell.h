@@ -13,11 +13,11 @@ namespace battletank {
     private:
         sf::Sprite sprite;
         sf::Vector2f direction;
-        float movementSpeed;
+        float movementSpeed = 3.f;
 
     public:
         TankShell();
-        TankShell(const sf::Texture* texture, float posX, float posY, float dirX, float dirY, float movementSpeed);
+        TankShell(const sf::Texture* texture, float posX, float posY, float dirX, float dirY, float rotation, float movementSpeed);
         virtual ~TankShell();
 
         // Accessors
