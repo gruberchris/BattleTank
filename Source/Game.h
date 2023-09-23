@@ -9,6 +9,7 @@
 #include "SFML/System.hpp"
 #include "Entities/PlayerTank.h"
 #include "Entities/TankShell.h"
+#include "Entities/EnemyTank.h"
 
 namespace battletank {
     class Game {
@@ -17,6 +18,7 @@ namespace battletank {
         PlayerTank* playerTank;
         std::map<std::string, sf::Texture*> textures;
         std::vector<TankShell*> tankShells;
+        std::vector<EnemyTank*> enemyTanks;
 
         // Methods
         void initWindow();
@@ -36,6 +38,7 @@ namespace battletank {
         void updatePollEvents();
         void updateInput();
         void updateTankShells();
+        void updateEnemyTanks();
     };
 
 } // battletank

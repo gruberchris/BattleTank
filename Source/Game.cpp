@@ -28,6 +28,8 @@ namespace battletank {
         this->initWindow();
         this->initPlayerTank();
         this->initTextures();
+
+        this->enemyTanks.push_back(new EnemyTank(400.f, 400.f));
     }
 
     Game::~Game() {
@@ -41,6 +43,11 @@ namespace battletank {
 
         // Clean up tank shells
         for (auto &i : this->tankShells) {
+            delete i;
+        }
+
+        // Clean up enemy tanks
+        for (auto &i : this->enemyTanks) {
             delete i;
         }
     }
@@ -57,6 +64,7 @@ namespace battletank {
         this->updateInput();
         this->playerTank->update();
         this->updateTankShells();
+        this->updateEnemyTanks();
     }
 
     void Game::render() {
@@ -66,6 +74,10 @@ namespace battletank {
 
         for (auto *shell : this->tankShells) {
             shell->render(this->window);
+        }
+
+        for (auto *enemyTank : this->enemyTanks) {
+            enemyTank->render(this->window);
         }
 
         this->window->display();
@@ -120,6 +132,20 @@ namespace battletank {
             }
 
             std::cout << this->tankShells.size() << " tank shells remaining." << std::endl;
+
+            ++counter;
+        }
+    }
+
+    void Game::updateEnemyTanks() {
+        unsigned counter = 0;
+
+        for (auto *enemyTank : this->enemyTanks) {
+            enemyTank->update();
+
+            if (enemyTank->canAttack()) {
+                this->tankShells.push_back(new TankShell(this->textures["TANK_SHELL"], enemyTank->getPosition().x, enemyTank->getPosition().y, 0.f, 1.f, 3.f));
+            }
 
             ++counter;
         }
