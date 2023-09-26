@@ -15,6 +15,8 @@ namespace battletank {
     private:
         sf::Sprite sprite;
         sf::Texture texture;
+        sf::Sprite turret_sprite;
+        sf::Texture turret_texture;
         float movementSpeed = 0.5f;
         float rotationSpeed = 1.f;
         float attackCooldownMax = 10.f;

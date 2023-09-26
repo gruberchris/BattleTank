@@ -13,7 +13,7 @@ namespace battletank {
     private:
         sf::Sprite sprite;
         sf::Vector2f direction;
-        float movementSpeed = 3.f;
+        float movementSpeed = 12.f;
 
     public:
         TankShell();

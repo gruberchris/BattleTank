@@ -6,21 +6,21 @@
 
 namespace battletank {
         TankShell::TankShell() {
-            this->sprite.setScale(0.1f, 0.1f);
+            this->sprite.setScale(0.5f, 0.5f);
             this->sprite.setOrigin(this->sprite.getLocalBounds().width / 2.f, this->sprite.getLocalBounds().height / 2.f);
             this->sprite.setPosition(0.f, 0.f);
         }
 
         TankShell::TankShell(const sf::Texture* texture, float posX, float posY, float dirX, float dirY, float rotation, float movementSpeed) {
             this->sprite.setTexture(*texture);
-            this->sprite.scale(0.1f, 0.1f);
+            this->sprite.scale(0.5f, 0.5f);
             this->sprite.setOrigin(this->sprite.getLocalBounds().width / 2.f, this->sprite.getLocalBounds().height / 2.f);
             this->sprite.setPosition(posX, posY);
             this->sprite.setRotation(rotation);
 
             this->direction.x = dirX;
             this->direction.y = dirY;
-            this->movementSpeed = movementSpeed;
+            //this->movementSpeed = movementSpeed;
         }
 
         TankShell::~TankShell() {

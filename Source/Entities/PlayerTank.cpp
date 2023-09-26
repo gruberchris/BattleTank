@@ -7,16 +7,25 @@
 
 namespace battletank {
     void PlayerTank::initTexture() {
-        if (!this->texture.loadFromFile("../Source/Resources/Textures/Tank.png")) {
-            std::cout << "ERROR::PLAYER_TANK::INIT_TEXTURE::Failed to load texture." << std::endl;
+        if (!this->texture.loadFromFile("../Source/Resources/Textures/Hull_A_01.png")) {
+            std::cout << "ERROR::PLAYER_TANK::INIT_TEXTURE::Failed to load hull texture." << std::endl;
+        }
+
+        if (!this->turret_texture.loadFromFile("../Source/Resources/Textures/Gun_A_01.png")) {
+            std::cout << "ERROR::PLAYER_TANK::INIT_TEXTURE::Failed to load turret texture." << std::endl;
         }
     }
 
     void PlayerTank::initSprite() {
         this->sprite.setTexture(this->texture);
-        this->sprite.scale(0.1f, 0.1f);
+        this->sprite.scale(0.25f, 0.25f);
         this->sprite.setOrigin(this->sprite.getLocalBounds().width / 2.f, this->sprite.getLocalBounds().height / 2.f);
         this->sprite.setPosition(200.f, 200.f);
+
+        this->turret_sprite.setTexture(this->turret_texture);
+        this->turret_sprite.scale(0.25f, 0.25f);
+        this->turret_sprite.setOrigin(this->turret_sprite.getLocalBounds().width / 2.f, this->turret_sprite.getLocalBounds().height / 2.f);
+        this->turret_sprite.setPosition(this->sprite.getPosition());
     }
 
     PlayerTank::PlayerTank() {
@@ -54,10 +63,12 @@ namespace battletank {
 
     void PlayerTank::render(sf::RenderTarget &target) {
         target.draw(this->sprite);
+        target.draw(this->turret_sprite);
     }
 
     void PlayerTank::move(const float dirX, const float dirY) {
         this->sprite.move(this->movementSpeed * dirX, this->movementSpeed * dirY);
+        this->turret_sprite.move(this->movementSpeed * dirX, this->movementSpeed * dirY);
     }
 
     void PlayerTank::moveForward() {
@@ -70,5 +81,6 @@ namespace battletank {
 
     void PlayerTank::rotate(const float degrees) {
         this->sprite.rotate(this->rotationSpeed * degrees);
+        this->turret_sprite.rotate(this->rotationSpeed * degrees);
     }
 } // battletank

@@ -19,6 +19,8 @@ namespace battletank {
 
         sf::Sprite sprite;
         sf::Texture texture;
+        sf::Sprite turret_sprite;
+        sf::Texture turret_texture;
         //sf::Vector2f direction;
         float movementSpeed = 0.5f;
         float rotationSpeed = 1.f;

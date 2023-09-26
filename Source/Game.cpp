@@ -21,7 +21,7 @@ namespace battletank {
         this->textures["TANK"]->loadFromFile("../Source/Resources/Textures/Tank.png");
 
         this->textures["TANK_SHELL"] = new sf::Texture();
-        this->textures["TANK_SHELL"]->loadFromFile("../Source/Resources/Textures/TankShell.png");
+        this->textures["TANK_SHELL"]->loadFromFile("../Source/Resources/Textures/Light_Shell.png");
     }
 
     Game::Game() {
