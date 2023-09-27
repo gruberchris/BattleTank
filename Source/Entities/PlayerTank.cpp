@@ -6,8 +6,26 @@
 #include "PlayerTank.h"
 
 namespace battletank {
+    PlayerTank::PlayerTank() {
+        // TODO: the default constructor should not be used
+        this->initTexture();
+        this->initSprite();
+        this->attackCooldown = this->attackCooldownMax;
+    }
+
+    PlayerTank::PlayerTank(sf::Texture* texture, sf::Texture* turret_texture) {
+        setTexture(texture);
+        setTurretTexture(turret_texture);
+        this->initSprite();
+        this->attackCooldown = this->attackCooldownMax;
+    }
+
+    PlayerTank::~PlayerTank() {
+
+    }
+
     void PlayerTank::initTexture() {
-        if (!this->texture.loadFromFile("../Source/Resources/Textures/Hull_A_01.png")) {
+        if (!this->hull_texture.loadFromFile("../Source/Resources/Textures/Hull_A_01.png")) {
             std::cout << "ERROR::PLAYER_TANK::INIT_TEXTURE::Failed to load hull texture." << std::endl;
         }
 
@@ -17,25 +35,17 @@ namespace battletank {
     }
 
     void PlayerTank::initSprite() {
-        this->sprite.setTexture(this->texture);
-        this->sprite.scale(0.25f, 0.25f);
-        this->sprite.setOrigin(this->sprite.getLocalBounds().width / 2.f, this->sprite.getLocalBounds().height / 2.f);
-        this->sprite.setPosition(200.f, 200.f);
+        // Initialize tank hull
+        this->hull_sprite.setTexture(this->hull_texture);
+        this->hull_transform.scale(0.25f, 0.25f);
+        this->hull_transform.setOrigin(this->hull_sprite.getLocalBounds().width / 2.f, this->hull_sprite.getLocalBounds().height / 2.f);
+        this->hull_transform.setPosition(200.f, 200.f);
 
+        // Initialize tank turret
         this->turret_sprite.setTexture(this->turret_texture);
-        this->turret_sprite.scale(0.25f, 0.25f);
-        this->turret_sprite.setOrigin(this->turret_sprite.getLocalBounds().width / 2.f, this->turret_sprite.getLocalBounds().height / 2.f);
-        this->turret_sprite.setPosition(this->sprite.getPosition());
-    }
-
-    PlayerTank::PlayerTank() {
-        this->initTexture();
-        this->initSprite();
-        this->attackCooldown = this->attackCooldownMax;
-    }
-
-    PlayerTank::~PlayerTank() {
-
+        this->turret_transform.scale(0.25f, 0.25f);
+        this->turret_transform.setOrigin(this->turret_sprite.getLocalBounds().width / 2.f, this->turret_sprite.getLocalBounds().height / 2.f);
+        this->turret_transform.setPosition(this->hull_transform.getPosition());
     }
 
     void PlayerTank::update() {
@@ -61,26 +71,30 @@ namespace battletank {
         return true;
     }
 
-    void PlayerTank::render(sf::RenderTarget &target) {
-        target.draw(this->sprite);
-        target.draw(this->turret_sprite);
-    }
-
-    void PlayerTank::move(const float dirX, const float dirY) {
-        this->sprite.move(this->movementSpeed * dirX, this->movementSpeed * dirY);
-        this->turret_sprite.move(this->movementSpeed * dirX, this->movementSpeed * dirY);
-    }
-
-    void PlayerTank::moveForward() {
-        this->move(std::cos((this->sprite.getRotation() - 90) * M_PI / 180.f), std::sin((this->sprite.getRotation() - 90) * M_PI / 180.f));
-    }
-
-    void PlayerTank::moveBackward() {
-        this->move(-std::cos((this->sprite.getRotation() - 90) * M_PI / 180.f), -std::sin((this->sprite.getRotation() - 90) * M_PI / 180.f));
+    void PlayerTank::draw(sf::RenderTarget &target) const {
+        target.draw(this->hull_sprite, this->hull_transform.getTransform());
+        target.draw(this->turret_sprite, this->turret_transform.getTransform());
     }
 
     void PlayerTank::rotate(const float degrees) {
-        this->sprite.rotate(this->rotationSpeed * degrees);
-        this->turret_sprite.rotate(this->rotationSpeed * degrees);
+        this->hull_transform.rotate(this->rotationSpeed * degrees);
+        this->turret_transform.rotate(this->rotationSpeed * degrees);
+    }
+
+    void PlayerTank::move(const float dirX, const float dirY) {
+        this->hull_transform.move(this->movementSpeed * dirX, this->movementSpeed * dirY);
+        this->turret_transform.move(this->movementSpeed * dirX, this->movementSpeed * dirY);
+    }
+
+    void PlayerTank::moveForward() {
+        const float dirX = std::cos((this->hull_transform.getRotation() - 90) * (float)M_PI / 180.f);
+        const float dirY = std::sin((this->hull_transform.getRotation() - 90) * (float)M_PI / 180.f);
+        this->move(dirX, dirY);
+    }
+
+    void PlayerTank::moveBackward() {
+        const float dirX = -std::cos((this->hull_transform.getRotation() - 90) * (float)M_PI / 180.f);
+        const float dirY = -std::sin((this->hull_transform.getRotation() - 90) * (float)M_PI / 180.f);
+        this->move(dirX, dirY);
     }
 } // battletank

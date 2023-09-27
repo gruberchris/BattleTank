@@ -79,7 +79,7 @@ namespace battletank {
     void Game::render() {
         this->window->clear();
 
-        this->playerTank->render(*this->window);
+        this->playerTank->draw(*this->window);
 
         for (auto *shell : this->tankShells) {
             shell->render(this->window);

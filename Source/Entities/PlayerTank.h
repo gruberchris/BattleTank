@@ -5,18 +5,20 @@
 #ifndef BATTLETANK_PLAYERTANK_H
 #define BATTLETANK_PLAYERTANK_H
 
-#include <SFML/Graphics/RenderTarget.hpp>
-#include <SFML/Graphics/Sprite.hpp>
-#include <SFML/Graphics/Texture.hpp>
+#include <SFML/Graphics.hpp>
+#include "BaseTank.h"
 
 namespace battletank {
 
     class PlayerTank {
     private:
-        sf::Sprite sprite;
-        sf::Texture texture;
+        // Members
+        sf::Texture hull_texture;
+        sf::Sprite hull_sprite;
+        sf::Transformable hull_transform;
         sf::Sprite turret_sprite;
         sf::Texture turret_texture;
+        sf::Transformable turret_transform;
         float movementSpeed = 0.5f;
         float rotationSpeed = 1.f;
         float attackCooldownMax = 10.f;
@@ -24,27 +26,37 @@ namespace battletank {
         const float attackRateOfFire = 0.035f;
 
         // Methods
+        void setTurretTexture(sf::Texture const* t) { this->turret_texture = *t; }
+        sf::Texture getTurretTexture() const { return this->turret_texture; }
+        float getMovementSpeed() const { return this->movementSpeed; }
+        void setMovementSpeed(float speed) { this->movementSpeed = speed; }
         void initTexture();
         void initSprite();
 
+    protected:
+        // Methods
+        void updateAttack();
+
     public:
         PlayerTank();
+        PlayerTank(sf::Texture* hull_texture, sf::Texture* turret_texture);
         virtual ~PlayerTank();
 
         // Accessors
-        sf::FloatRect getGlobalBounds() const { return this->sprite.getGlobalBounds(); }
-        sf::Vector2f getPosition() const { return this->sprite.getPosition(); }
-        float getRotation() const { return this->sprite.getRotation(); }
+        void setTexture(sf::Texture const* t) { this->hull_texture = *t; }
+        sf::Texture getTexture() const { return this->hull_texture; }
+        float getRotation() const { return this->hull_transform.getRotation(); }
+        sf::Vector2f getPosition() const { return this->hull_transform.getPosition(); }
 
         // Methods
         void update();
-        void updateAttack();
+        void draw(sf::RenderTarget &target) const;
+
         bool canAttack();
-        void render(sf::RenderTarget& target);
         void moveForward();
         void moveBackward();
-        void move(const float dirX, const float dirY);
-        void rotate(const float degrees);
+        void move(float dirX, float dirY);
+        void rotate(float degrees);
     };
 
 } // battletank
