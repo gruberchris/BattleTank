@@ -25,6 +25,7 @@ namespace battletank {
         void initWindow();
         void initTextures();
         void initPlayerTank();
+        void initEnemyTanks();
 
     public:
         Game();

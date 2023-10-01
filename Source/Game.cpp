@@ -6,31 +6,11 @@
 #include "Game.h"
 
 namespace battletank {
-    void Game::initWindow() {
-        this->window = new sf::RenderWindow(sf::VideoMode(1920, 1080), "Battle Tank", sf::Style::Close | sf::Style::Titlebar);
-        this->window->setFramerateLimit(144);
-        this->window->setVerticalSyncEnabled(false);
-    }
-
-    void Game::initPlayerTank() {
-        this->playerTank = new PlayerTank();
-    }
-
-    void Game::initTextures() {
-        this->textures["TANK"] = new sf::Texture();
-        this->textures["TANK"]->loadFromFile("../Source/Resources/Textures/Tank.png");
-
-        this->textures["TANK_SHELL"] = new sf::Texture();
-        this->textures["TANK_SHELL"]->loadFromFile("../Source/Resources/Textures/Light_Shell.png");
-    }
-
     Game::Game() {
         this->initWindow();
-        this->initPlayerTank();
         this->initTextures();
-
-        this->enemyTanks.push_back(new EnemyTank(400.f, 400.f, 0.f));
-        this->enemyTanks.push_back(new EnemyTank(500.f, 400.f, 45.f));
+        this->initEnemyTanks();
+        this->initPlayerTank();
     }
 
     Game::~Game() {
@@ -51,6 +31,57 @@ namespace battletank {
         for (auto &i : this->enemyTanks) {
             delete i;
         }
+    }
+
+    void Game::initWindow() {
+        this->window = new sf::RenderWindow(sf::VideoMode(1920, 1080), "Battle Tank", sf::Style::Close | sf::Style::Titlebar);
+        this->window->setFramerateLimit(144);
+        this->window->setVerticalSyncEnabled(false);
+    }
+
+    void Game::initTextures() {
+        this->textures["TANK"] = new sf::Texture();
+        if (!this->textures["TANK"]->loadFromFile("../Source/Resources/Textures/Tank.png")) {
+            std::cout << "ERROR::GAME::INIT_TEXTURES::Failed to load TANK texture." << std::endl;
+        }
+
+        this->textures["TANK_SHELL"] = new sf::Texture();
+        if (!this->textures["TANK_SHELL"]->loadFromFile("../Source/Resources/Textures/Light_Shell.png")) {
+            std::cout << "ERROR::GAME::INIT_TEXTURES::Failed to load TANK_SHELL texture." << std::endl;
+        }
+
+        this->textures["HULL_A_01"] = new sf::Texture();
+        if (!this->textures["HULL_A_01"]->loadFromFile("../Source/Resources/Textures/Hull_A_01.png")) {
+            std::cout << "ERROR::GAME::INIT_TEXTURES::Failed to load HULL_A_01 texture." << std::endl;
+        }
+
+        this->textures["HULL_D_01"] = new sf::Texture();
+        if (!this->textures["HULL_D_01"]->loadFromFile("../Source/Resources/Textures/Hull_D_01.png")) {
+            std::cout << "ERROR::GAME::INIT_TEXTURES::Failed to load HULL_D_01 texture." << std::endl;
+        }
+
+        this->textures["GUN_A_01"] = new sf::Texture();
+        if (!this->textures["GUN_A_01"]->loadFromFile("../Source/Resources/Textures/Gun_A_01.png")) {
+            std::cout << "ERROR::GAME::INIT_TEXTURES::Failed to load GUN_A_01 texture." << std::endl;
+        }
+
+        this->textures["GUN_D_01"] = new sf::Texture();
+        if (!this->textures["GUN_D_01"]->loadFromFile("../Source/Resources/Textures/Gun_D_01.png")) {
+            std::cout << "ERROR::GAME::INIT_TEXTURES::Failed to load GUN_D_01 texture." << std::endl;
+        }
+    }
+
+    void Game::initEnemyTanks() {
+        auto hull_texture = this->textures["HULL_D_01"];
+        auto gun_texture = this->textures["GUN_D_01"];
+        this->enemyTanks.push_back(new EnemyTank(hull_texture, gun_texture, 400.f, 400.f, 0.f));
+        this->enemyTanks.push_back(new EnemyTank(hull_texture, gun_texture, 500.f, 400.f, 45.f));
+    }
+
+    void Game::initPlayerTank() {
+        auto hull_texture = this->textures["HULL_A_01"];
+        auto gun_texture = this->textures["GUN_A_01"];
+        this->playerTank = new PlayerTank(hull_texture, gun_texture);
     }
 
     void Game::run() {

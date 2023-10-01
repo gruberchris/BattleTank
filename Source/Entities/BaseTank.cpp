@@ -5,4 +5,11 @@
 #include "BaseTank.h"
 
 namespace battletank {
+    BaseTank::BaseTank() {
+
+    }
+
+    BaseTank::~BaseTank() {
+
+    }
 } // battletank

@@ -6,17 +6,17 @@
 #include "EnemyTank.h"
 
 namespace battletank {
-    EnemyTank::EnemyTank(float posX, float posY, float rotation) {
-        initTexture();
-        initSprite(posX, posY, rotation);
+    EnemyTank::EnemyTank(sf::Texture* hull_texture, sf::Texture* turret_texture, float posX, float posY, float rotation) {
+        initSprite(hull_texture, turret_texture, posX, posY, rotation);
     }
 
     EnemyTank::~EnemyTank() {
 
     }
 
+    /*
     void EnemyTank::initTexture() {
-        if (!this->texture.loadFromFile("../Source/Resources/Textures/Hull_D_01.png")) {
+        if (!this->hull_texture.loadFromFile("../Source/Resources/Textures/Hull_D_01.png")) {
             std::cout << "ERROR::PLAYER_TANK::INIT_TEXTURE::Failed to load hull texture." << std::endl;
         }
 
@@ -24,18 +24,19 @@ namespace battletank {
             std::cout << "ERROR::PLAYER_TANK::INIT_TEXTURE::Failed to load tank texture." << std::endl;
         }
     }
+    */
 
-    void EnemyTank::initSprite(float posX, float posY, float rotation) {
-        this->sprite.setTexture(this->texture);
-        this->sprite.scale(0.25f, 0.25f);
-        this->sprite.setOrigin(this->sprite.getLocalBounds().width / 2.f, this->sprite.getLocalBounds().height / 2.f);
-        this->sprite.setPosition(posX, posY);
-        this->sprite.setRotation(rotation);
+    void EnemyTank::initSprite(sf::Texture* hull_texture, sf::Texture* turret_texture, float posX, float posY, float rotation) {
+        this->hull_sprite.setTexture(*hull_texture);
+        this->hull_sprite.scale(0.25f, 0.25f);
+        this->hull_sprite.setOrigin(this->hull_sprite.getLocalBounds().width / 2.f, this->hull_sprite.getLocalBounds().height / 2.f);
+        this->hull_sprite.setPosition(posX, posY);
+        this->hull_sprite.setRotation(rotation);
 
-        this->turret_sprite.setTexture(this->turret_texture);
+        this->turret_sprite.setTexture(*turret_texture);
         this->turret_sprite.scale(0.25f, 0.25f);
         this->turret_sprite.setOrigin(this->turret_sprite.getLocalBounds().width / 2.f, this->turret_sprite.getLocalBounds().height / 2.f);
-        this->turret_sprite.setPosition(this->sprite.getPosition());
+        this->turret_sprite.setPosition(this->hull_sprite.getPosition());
         this->turret_sprite.setRotation(rotation);
     }
 
@@ -63,17 +64,17 @@ namespace battletank {
     }
 
     void EnemyTank::render(sf::RenderTarget *target) {
-        target->draw(this->sprite);
+        target->draw(this->hull_sprite);
         target->draw(this->turret_sprite);
     }
 
     void EnemyTank::move(const float dirX, const float dirY) {
-        this->sprite.move(this->movementSpeed * dirX, this->movementSpeed * dirY);
+        this->hull_sprite.move(this->movementSpeed * dirX, this->movementSpeed * dirY);
         this->turret_sprite.move(this->movementSpeed * dirX, this->movementSpeed * dirY);
     }
 
     void EnemyTank::rotate(const float degrees) {
-        this->sprite.rotate(this->rotationSpeed * degrees);
+        this->hull_sprite.rotate(this->rotationSpeed * degrees);
         this->turret_sprite.rotate(this->rotationSpeed * degrees);
     }
 } // battletank
