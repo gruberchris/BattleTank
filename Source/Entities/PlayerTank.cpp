@@ -2,21 +2,11 @@
 // Created by Christopher Gruber on 9/17/23.
 //
 
-#include <iostream>
 #include "PlayerTank.h"
 
 namespace battletank {
-    PlayerTank::PlayerTank() {
-        // TODO: the default constructor should not be used
-        this->initTexture();
-        this->initSprite();
-        this->attackCooldown = this->attackCooldownMax;
-    }
-
-    PlayerTank::PlayerTank(sf::Texture* texture, sf::Texture* turret_texture) {
-        setTexture(texture);
-        setTurretTexture(turret_texture);
-        this->initSprite();
+    PlayerTank::PlayerTank(sf::Texture* texture, sf::Texture* turret_texture, float posX, float posY, float rotation) {
+        this->initSprite(texture, turret_texture, posX, posY, rotation);
         this->attackCooldown = this->attackCooldownMax;
     }
 
@@ -24,28 +14,20 @@ namespace battletank {
 
     }
 
-    void PlayerTank::initTexture() {
-        if (!this->hull_texture.loadFromFile("../Source/Resources/Textures/Hull_A_01.png")) {
-            std::cout << "ERROR::PLAYER_TANK::INIT_TEXTURE::Failed to load hull texture." << std::endl;
-        }
-
-        if (!this->turret_texture.loadFromFile("../Source/Resources/Textures/Gun_A_01.png")) {
-            std::cout << "ERROR::PLAYER_TANK::INIT_TEXTURE::Failed to load turret texture." << std::endl;
-        }
-    }
-
-    void PlayerTank::initSprite() {
+    void PlayerTank::initSprite(sf::Texture* hull_texture, sf::Texture* turret_texture, float posX, float posY, float rotation) {
         // Initialize tank hull
-        this->hull_sprite.setTexture(this->hull_texture);
+        this->hull_sprite.setTexture(*hull_texture);
         this->hull_transform.scale(0.25f, 0.25f);
         this->hull_transform.setOrigin(this->hull_sprite.getLocalBounds().width / 2.f, this->hull_sprite.getLocalBounds().height / 2.f);
-        this->hull_transform.setPosition(200.f, 200.f);
+        this->hull_transform.setPosition(posX, posY);
+        this->hull_transform.setRotation(rotation);
 
         // Initialize tank turret
-        this->turret_sprite.setTexture(this->turret_texture);
+        this->turret_sprite.setTexture(*turret_texture);
         this->turret_transform.scale(0.25f, 0.25f);
         this->turret_transform.setOrigin(this->turret_sprite.getLocalBounds().width / 2.f, this->turret_sprite.getLocalBounds().height / 2.f);
         this->turret_transform.setPosition(this->hull_transform.getPosition());
+        this->turret_transform.setRotation(rotation);
     }
 
     void PlayerTank::update() {

@@ -2,7 +2,6 @@
 // Created by Christopher Gruber on 9/17/23.
 //
 
-#include <iostream>
 #include "EnemyTank.h"
 
 namespace battletank {
@@ -13,18 +12,6 @@ namespace battletank {
     EnemyTank::~EnemyTank() {
 
     }
-
-    /*
-    void EnemyTank::initTexture() {
-        if (!this->hull_texture.loadFromFile("../Source/Resources/Textures/Hull_D_01.png")) {
-            std::cout << "ERROR::PLAYER_TANK::INIT_TEXTURE::Failed to load hull texture." << std::endl;
-        }
-
-        if (!this->turret_texture.loadFromFile("../Source/Resources/Textures/Gun_D_01.png")) {
-            std::cout << "ERROR::PLAYER_TANK::INIT_TEXTURE::Failed to load tank texture." << std::endl;
-        }
-    }
-    */
 
     void EnemyTank::initSprite(sf::Texture* hull_texture, sf::Texture* turret_texture, float posX, float posY, float rotation) {
         this->hull_sprite.setTexture(*hull_texture);

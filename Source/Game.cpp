@@ -81,7 +81,7 @@ namespace battletank {
     void Game::initPlayerTank() {
         auto hull_texture = this->textures["HULL_A_01"];
         auto gun_texture = this->textures["GUN_A_01"];
-        this->playerTank = new PlayerTank(hull_texture, gun_texture);
+        this->playerTank = new PlayerTank(hull_texture, gun_texture, 200.f, 200.f, 0.f);
     }
 
     void Game::run() {

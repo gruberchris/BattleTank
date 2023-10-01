@@ -5,7 +5,7 @@
 #ifndef BATTLETANK_ENEMYTANK_H
 #define BATTLETANK_ENEMYTANK_H
 
-#include<SFML/Graphics.hpp>
+#include <SFML/Graphics.hpp>
 
 namespace battletank {
 
@@ -29,7 +29,6 @@ namespace battletank {
         const float attackRateOfFire = 0.035f;
 
         // Methods
-        void initTexture();
         void initSprite(sf::Texture* hull_texture, sf::Texture* turret_texture, float posX, float posY, float rotation);
         void setTexture(sf::Texture const* t) { this->hull_texture = *t; }
         sf::Texture getTexture() const { return this->hull_texture; }

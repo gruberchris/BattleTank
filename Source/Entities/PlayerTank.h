@@ -6,7 +6,6 @@
 #define BATTLETANK_PLAYERTANK_H
 
 #include <SFML/Graphics.hpp>
-#include "BaseTank.h"
 
 namespace battletank {
 
@@ -30,16 +29,14 @@ namespace battletank {
         sf::Texture getTurretTexture() const { return this->turret_texture; }
         float getMovementSpeed() const { return this->movementSpeed; }
         void setMovementSpeed(float speed) { this->movementSpeed = speed; }
-        void initTexture();
-        void initSprite();
+        void initSprite(sf::Texture* hull_texture, sf::Texture* turret_texture, float posX, float posY, float rotation);
 
     protected:
         // Methods
         void updateAttack();
 
     public:
-        PlayerTank();
-        PlayerTank(sf::Texture* hull_texture, sf::Texture* turret_texture);
+        PlayerTank(sf::Texture* hull_texture, sf::Texture* turret_texture, float posX, float posY, float rotation);
         virtual ~PlayerTank();
 
         // Accessors
