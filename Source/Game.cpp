@@ -18,18 +18,18 @@ namespace battletank {
         delete this->playerTank;
 
         // Clean up textures
-        for (auto &i : this->textures) {
-            delete i.second;
+        for (auto const& [texture_key, texture] : this->textures) {
+            delete texture;
         }
 
-        // Clean up tank shells
-        for (auto &i : this->tankShells) {
-            delete i;
+        // Clean up tank shell sprites
+        for (auto &tank_shell : this->tankShells) {
+            delete tank_shell;
         }
 
-        // Clean up enemy tanks
-        for (auto &i : this->enemyTanks) {
-            delete i;
+        // Clean up enemy tanks sprites
+        for (auto &enemy_tank : this->enemyTanks) {
+            delete enemy_tank;
         }
     }
 

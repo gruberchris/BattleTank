@@ -48,6 +48,7 @@ namespace battletank {
         // Methods
         void update();
         void render(sf::RenderTarget* target);
+
         void move(const float dirX, const float dirY);
         void rotate(const float degrees);
         void updateAttack();
