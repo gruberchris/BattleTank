@@ -74,14 +74,27 @@ namespace battletank {
     void Game::initEnemyTanks() {
         auto hull_texture = this->textures["HULL_D_01"];
         auto gun_texture = this->textures["GUN_D_01"];
-        this->enemyTanks.push_back(new EnemyTank(hull_texture, gun_texture, 400.f, 400.f, 0.f));
-        this->enemyTanks.push_back(new EnemyTank(hull_texture, gun_texture, 500.f, 400.f, 45.f));
+
+        for (int i = 0; i < 10; ++i) {
+            auto x = static_cast<float>(rand() % 1920);
+            auto y = static_cast<float>(rand() % 1080);
+            auto rotation = static_cast<float>(rand() % 360);
+            this->enemyTanks.push_back(new EnemyTank(hull_texture, gun_texture, x, y, rotation));
+        }
+
+        //this->enemyTanks.push_back(new EnemyTank(hull_texture, gun_texture, 400.f, 400.f, 0.f));
+        //this->enemyTanks.push_back(new EnemyTank(hull_texture, gun_texture, 500.f, 400.f, 45.f));
     }
 
     void Game::initPlayerTank() {
         auto hull_texture = this->textures["HULL_A_01"];
         auto gun_texture = this->textures["GUN_A_01"];
-        this->playerTank = new PlayerTank(hull_texture, gun_texture, 200.f, 200.f, 0.f);
+
+        auto x = static_cast<float>(this->window->getSize().x) / 2.f;
+        auto y = static_cast<float>(this->window->getSize().y) / 2.f;
+        auto rotation = 0.f;
+
+        this->playerTank = new PlayerTank(hull_texture, gun_texture, x, y, rotation);
     }
 
     void Game::run() {
