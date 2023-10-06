@@ -14,66 +14,66 @@ namespace battletank {
     }
 
     Game::~Game() {
-        delete this->window;
-        delete this->playerTank;
+        delete this->mWindow;
+        delete this->mPlayerTank;
 
         // Clean up textures
-        for (auto const& [texture_key, texture] : this->textures) {
+        for (auto const& [textureKey, texture] : this->mTextures) {
             delete texture;
         }
 
         // Clean up tank shell sprites
-        for (auto &tank_shell : this->tankShells) {
-            delete tank_shell;
+        for (auto &tankShell : this->mTankShells) {
+            delete tankShell;
         }
 
         // Clean up enemy tanks sprites
-        for (auto &enemy_tank : this->enemyTanks) {
-            delete enemy_tank;
+        for (auto &enemyTank : this->mEnemyTanks) {
+            delete enemyTank;
         }
     }
 
     void Game::initWindow() {
-        this->window = new sf::RenderWindow(sf::VideoMode(1920, 1080), "Battle Tank", sf::Style::Close | sf::Style::Titlebar);
-        this->window->setFramerateLimit(144);
-        this->window->setVerticalSyncEnabled(false);
+        this->mWindow = new sf::RenderWindow(sf::VideoMode(1920, 1080), "Battle Tank", sf::Style::Close | sf::Style::Titlebar);
+        this->mWindow->setFramerateLimit(144);
+        this->mWindow->setVerticalSyncEnabled(false);
     }
 
     void Game::initTextures() {
-        this->textures["TANK"] = new sf::Texture();
-        if (!this->textures["TANK"]->loadFromFile("../Source/Resources/Textures/Tank.png")) {
+        this->mTextures["TANK"] = new sf::Texture();
+        if (!this->mTextures["TANK"]->loadFromFile("../Source/Resources/Textures/Tank.png")) {
             std::cout << "ERROR::GAME::INIT_TEXTURES::Failed to load TANK texture." << std::endl;
         }
 
-        this->textures["TANK_SHELL"] = new sf::Texture();
-        if (!this->textures["TANK_SHELL"]->loadFromFile("../Source/Resources/Textures/Light_Shell.png")) {
+        this->mTextures["TANK_SHELL"] = new sf::Texture();
+        if (!this->mTextures["TANK_SHELL"]->loadFromFile("../Source/Resources/Textures/Light_Shell.png")) {
             std::cout << "ERROR::GAME::INIT_TEXTURES::Failed to load TANK_SHELL texture." << std::endl;
         }
 
-        this->textures["HULL_A_01"] = new sf::Texture();
-        if (!this->textures["HULL_A_01"]->loadFromFile("../Source/Resources/Textures/Hull_A_01.png")) {
+        this->mTextures["HULL_A_01"] = new sf::Texture();
+        if (!this->mTextures["HULL_A_01"]->loadFromFile("../Source/Resources/Textures/Hull_A_01.png")) {
             std::cout << "ERROR::GAME::INIT_TEXTURES::Failed to load HULL_A_01 texture." << std::endl;
         }
 
-        this->textures["HULL_D_01"] = new sf::Texture();
-        if (!this->textures["HULL_D_01"]->loadFromFile("../Source/Resources/Textures/Hull_D_01.png")) {
+        this->mTextures["HULL_D_01"] = new sf::Texture();
+        if (!this->mTextures["HULL_D_01"]->loadFromFile("../Source/Resources/Textures/Hull_D_01.png")) {
             std::cout << "ERROR::GAME::INIT_TEXTURES::Failed to load HULL_D_01 texture." << std::endl;
         }
 
-        this->textures["GUN_A_01"] = new sf::Texture();
-        if (!this->textures["GUN_A_01"]->loadFromFile("../Source/Resources/Textures/Gun_A_01.png")) {
+        this->mTextures["GUN_A_01"] = new sf::Texture();
+        if (!this->mTextures["GUN_A_01"]->loadFromFile("../Source/Resources/Textures/Gun_A_01.png")) {
             std::cout << "ERROR::GAME::INIT_TEXTURES::Failed to load GUN_A_01 texture." << std::endl;
         }
 
-        this->textures["GUN_D_01"] = new sf::Texture();
-        if (!this->textures["GUN_D_01"]->loadFromFile("../Source/Resources/Textures/Gun_D_01.png")) {
+        this->mTextures["GUN_D_01"] = new sf::Texture();
+        if (!this->mTextures["GUN_D_01"]->loadFromFile("../Source/Resources/Textures/Gun_D_01.png")) {
             std::cout << "ERROR::GAME::INIT_TEXTURES::Failed to load GUN_D_01 texture." << std::endl;
         }
     }
 
     void Game::initEnemyTanks() {
-        auto hull_texture = this->textures["HULL_D_01"];
-        auto gun_texture = this->textures["GUN_D_01"];
+        auto hullTexture = this->mTextures["HULL_D_01"];
+        auto gunTexture = this->mTextures["GUN_D_01"];
 
         for (int i = 0; i < 5; ++i) {
             // TODO: randomize spawn location
@@ -83,23 +83,23 @@ namespace battletank {
             // TODO: randomize rotation
             auto rotation = static_cast<float>(rand() % 360);
 
-            this->enemyTanks.push_back(new EnemyTank(hull_texture, gun_texture, x, y, rotation));
+            this->mEnemyTanks.push_back(new EnemyTank(hullTexture, gunTexture, x, y, rotation));
         }
     }
 
     void Game::initPlayerTank() {
-        auto hull_texture = this->textures["HULL_A_01"];
-        auto gun_texture = this->textures["GUN_A_01"];
+        auto hullTexture = this->mTextures["HULL_A_01"];
+        auto gunTexture = this->mTextures["GUN_A_01"];
 
-        auto x = static_cast<float>(this->window->getSize().x) / 2.f;
-        auto y = static_cast<float>(this->window->getSize().y) / 2.f;
+        auto x = static_cast<float>(this->mWindow->getSize().x) / 2.f;
+        auto y = static_cast<float>(this->mWindow->getSize().y) / 2.f;
         auto rotation = 0.f;
 
-        this->playerTank = new PlayerTank(hull_texture, gun_texture, x, y, rotation);
+        this->mPlayerTank = new PlayerTank(hullTexture, gunTexture, x, y, rotation);
     }
 
     void Game::run() {
-        sf::ContextSettings settings = window->getSettings();
+        sf::ContextSettings settings = mWindow->getSettings();
         std::cout << "OpenGL version: " << settings.majorVersion << "." << settings.minorVersion << std::endl;
         std::cout << "Depth bits: " << settings.depthBits << std::endl;
         std::cout << "Stencil bits: " << settings.stencilBits << std::endl;
@@ -107,7 +107,7 @@ namespace battletank {
         std::cout << "OpenGL debug: " << settings.attributeFlags << std::endl;
         std::cout << "SFML version: " << SFML_VERSION_MAJOR << "." << SFML_VERSION_MINOR << "." << SFML_VERSION_PATCH << std::endl;
 
-        while (this->window->isOpen()) {
+        while (this->mWindow->isOpen()) {
             this->update();
             this->render();
         }
@@ -117,60 +117,60 @@ namespace battletank {
         this->updatePollEvents();
         this->updateInput();
         this->updateTankShells();
-        this->playerTank->update();
+        this->mPlayerTank->update();
         this->updateEnemyTanks();
     }
 
     void Game::render() {
-        this->window->clear();
+        this->mWindow->clear();
 
-        this->playerTank->draw(*this->window);
+        this->mPlayerTank->draw(*this->mWindow);
 
-        for (auto *shell : this->tankShells) {
-            shell->render(this->window);
+        for (auto *shell : this->mTankShells) {
+            shell->render(this->mWindow);
         }
 
-        for (auto *enemyTank : this->enemyTanks) {
-            enemyTank->render(this->window);
+        for (auto *enemyTank : this->mEnemyTanks) {
+            enemyTank->render(this->mWindow);
         }
 
-        this->window->display();
+        this->mWindow->display();
     }
 
     void Game::updatePollEvents() {
         sf::Event event{};
 
-        while (this->window->pollEvent(event)) {
+        while (this->mWindow->pollEvent(event)) {
             if (event.type == sf::Event::Closed || event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape) {
-                this->window->close();
+                this->mWindow->close();
             }
         }
     }
 
     void Game::updateInput() {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-            this->playerTank->rotate(-1.f);
+            this->mPlayerTank->rotate(-1.f);
         }
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-            this->playerTank->rotate(1.f);
+            this->mPlayerTank->rotate(1.f);
         }
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-            this->playerTank->moveForward();
+            this->mPlayerTank->moveForward();
         }
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-            this->playerTank->moveBackward();
+            this->mPlayerTank->moveBackward();
         }
 
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && this->playerTank->canAttack()) {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && this->mPlayerTank->canAttack()) {
             // Get the sprite's rotation in degrees
-            float rotation = playerTank->getRotation();
+            float rotation = mPlayerTank->getRotation();
 
             // Calculate the direction vector based on the sprite's rotation
-            float dirX = std::cos((rotation - 90) * toRadians);
-            float dirY = std::sin((rotation - 90) * toRadians);
+            float dirX = std::cos((rotation - 90) * kToRadians);
+            float dirY = std::sin((rotation - 90) * kToRadians);
 
             //auto playerTankPos = this->playerTank->getPosition();
             //float distanceInFrontOfTank = 80.f;
@@ -178,47 +178,46 @@ namespace battletank {
             //auto shellPosY = playerTankPos.y + (dirY * distanceInFrontOfTank);
 
             // Create the tank shell with the calculated direction vector
-            this->tankShells.push_back(new TankShell(this->textures["TANK_SHELL"],
-                                                     this->playerTank->getPosition().x,
-                                                     this->playerTank->getPosition().y,
-                                                     dirX,
-                                                     dirY,
-                                                     rotation,
-                                                     12.f));
+            this->mTankShells.push_back(new TankShell(this->mTextures["TANK_SHELL"],
+                                                      this->mPlayerTank->getPosition().x,
+                                                      this->mPlayerTank->getPosition().y,
+                                                      dirX,
+                                                      dirY,
+                                                      rotation,
+                                                      12.f));
         }
     }
 
     void Game::updateTankShells() {
-        auto counter = 0;
-
-        for (auto *shell : this->tankShells) {
+        for (auto *shell : this->mTankShells) {
             shell->update();
 
-            if (shell->isOutOfView(this->window)) {
-                auto tankShellItr = std::ranges::find(this->tankShells.begin(), this->tankShells.end(), shell);
-                auto tankShellIndex = tankShellItr - this->tankShells.begin();
+            if (shell->isOutOfView(this->mWindow)) {
+                auto tankShellItr = std::ranges::find(this->mTankShells.begin(), this->mTankShells.end(), shell);
+                auto tankShellIndex = tankShellItr - this->mTankShells.begin();
 
                 // Delete tank shell
-                delete this->tankShells.at(tankShellIndex);
+                delete this->mTankShells.at(tankShellIndex);
 
                 // Cull tank shell from vector as it is out of bounds
-                this->tankShells.erase(this->tankShells.begin() + tankShellIndex);
+                this->mTankShells.erase(this->mTankShells.begin() + tankShellIndex);
 
                 continue;
             }
 
+            // TODO: Fix sprite collision detection. Projectiles are colliding with the tank that fired them
             continue;
 
             // Check tank shell hit with player tank
-            if (this->playerTank->getBoundingBox().intersects(shell->getGlobalBounds())) {
-                auto tankShellItr = std::ranges::find(this->tankShells.begin(), this->tankShells.end(), shell);
-                auto tankShellIndex = tankShellItr - this->tankShells.begin();
+            if (this->mPlayerTank->getBoundingBox().intersects(shell->getGlobalBounds())) {
+                auto tankShellItr = std::ranges::find(this->mTankShells.begin(), this->mTankShells.end(), shell);
+                auto tankShellIndex = tankShellItr - this->mTankShells.begin();
 
                 // Delete tank shell
-                delete this->tankShells.at(tankShellIndex);
+                delete this->mTankShells.at(tankShellIndex);
 
                 // Cull tank shell from vector as it is out of bounds
-                this->tankShells.erase(this->tankShells.begin() + tankShellIndex);
+                this->mTankShells.erase(this->mTankShells.begin() + tankShellIndex);
 
                 // TODO: do damage or kill player tank
 
@@ -253,15 +252,13 @@ namespace battletank {
              */
 
             //std::cout << this->tankShells.size() << " tank shells remaining." << std::endl;
-
-            ++counter;
         }
     }
 
     void Game::updateEnemyTanks() {
         unsigned counter = 0;
 
-        for (auto *enemyTank : this->enemyTanks) {
+        for (auto *enemyTank : this->mEnemyTanks) {
             enemyTank->update();
 
             if (enemyTank->canAttack()) {
@@ -269,17 +266,17 @@ namespace battletank {
                 float rotation = enemyTank->getRotation();
 
                 // Calculate the direction vector based on the sprite's rotation
-                float dirX = std::cos((rotation - 90) * toRadians);
-                float dirY = std::sin((rotation - 90) * toRadians);
+                float dirX = std::cos((rotation - 90) * kToRadians);
+                float dirY = std::sin((rotation - 90) * kToRadians);
 
                 // Create the tank shell with the calculated direction vector
-                this->tankShells.push_back(new TankShell(this->textures["TANK_SHELL"],
-                                                         enemyTank->getPosition().x,
-                                                         enemyTank->getPosition().y,
-                                                         dirX,
-                                                         dirY,
-                                                         rotation,
-                                                         12.f));
+                this->mTankShells.push_back(new TankShell(this->mTextures["TANK_SHELL"],
+                                                          enemyTank->getPosition().x,
+                                                          enemyTank->getPosition().y,
+                                                          dirX,
+                                                          dirY,
+                                                          rotation,
+                                                          12.f));
             }
 
             ++counter;

@@ -14,12 +14,12 @@
 namespace battletank {
     class Game {
     private:
-        sf::RenderWindow* window;
-        PlayerTank* playerTank;
-        std::map<std::string, sf::Texture*> textures;
-        std::vector<TankShell*> tankShells;
-        std::vector<EnemyTank*> enemyTanks;
-        float toRadians = static_cast<float>(M_PI / 180.f);
+        sf::RenderWindow* mWindow;
+        PlayerTank* mPlayerTank;
+        std::map<std::string, sf::Texture*> mTextures;
+        std::vector<TankShell*> mTankShells;
+        std::vector<EnemyTank*> mEnemyTanks;
+        const float kToRadians = static_cast<float>(M_PI / 180.f);
 
         // Methods
         void initWindow();
