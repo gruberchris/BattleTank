@@ -11,8 +11,8 @@ namespace battletank {
 
     class TankShell {
     private:
-        sf::Sprite sprite;
-        sf::Vector2f direction;
+        sf::Sprite m_sprite;
+        sf::Vector2f m_direction;
         float m_movementSpeed = 12.f;
 
     public:
@@ -20,8 +20,7 @@ namespace battletank {
         virtual ~TankShell();
 
         // Accessors
-        sf::FloatRect getGlobalBounds() const { return this->sprite.getGlobalBounds(); }
-        sf::FloatRect getBoundingBox() const { return this->sprite.getGlobalBounds(); }
+        sf::FloatRect getGlobalBounds() const { return this->m_sprite.getGlobalBounds(); }
 
         // Methods
         void update();
