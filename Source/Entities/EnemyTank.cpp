@@ -51,7 +51,7 @@ namespace battletank {
         return true;
     }
 
-    void EnemyTank::render(sf::RenderTarget *target) {
+    void EnemyTank::draw(sf::RenderTarget *target) const {
         target->draw(this->mHullSprite);
         target->draw(this->mTurretSprite);
     }

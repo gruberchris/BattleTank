@@ -18,16 +18,13 @@ namespace battletank {
         sf::Texture mTurretTexture;
         float mMovementSpeed = 0.5f;
         float mRotationSpeed = 1.f;
-        float mAttackCooldownMax = 10.f;
+        float mAttackCooldownMax = 8;
         float mAttackCooldown = 0.f;
         const float mAttackRateOfFire = 0.035f;
 
         // Methods
-        void setTurretTexture(sf::Texture const* texture) { this->mTurretTexture = *texture; }
-        sf::Texture getTurretTexture() const { return this->mTurretTexture; }
-        float getMovementSpeed() const { return this->mMovementSpeed; }
-        void setMovementSpeed(float movementSpeed) { this->mMovementSpeed = movementSpeed; }
         void initSprite(const sf::Texture* hullTexture, const sf::Texture* turretTexture, float posX, float posY, float rotation);
+
 
     protected:
         // Methods
@@ -38,11 +35,16 @@ namespace battletank {
         virtual ~PlayerTank();
 
         // Accessors
-        void setTexture(sf::Texture const* texture) { this->mHullTexture = *texture; }
-        sf::Texture getTexture() const { return this->mHullTexture; }
+        void setHullTexture(const sf::Texture* texture) { this->mHullTexture = *texture; }
+        sf::Texture getHullTexture() const { return this->mHullTexture; }
+        void setTurretTexture(sf::Texture const* texture) { this->mTurretTexture = *texture; }
+        sf::Texture getTurretTexture() const { return this->mTurretTexture; }
+        float getMovementSpeed() const { return this->mMovementSpeed; }
+        void setMovementSpeed(float movementSpeed) { this->mMovementSpeed = movementSpeed; }
+
         float getRotation() const { return this->mHullSprite.getRotation(); }
         sf::Vector2f getPosition() const { return this->mHullSprite.getPosition(); }
-        sf::FloatRect getBoundingBox() const { return this->mHullSprite.getGlobalBounds(); }
+        sf::FloatRect getGlobalBounds() const { return this->mHullSprite.getGlobalBounds(); }
 
         // Methods
         void update();

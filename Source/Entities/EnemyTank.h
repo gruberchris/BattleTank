@@ -11,36 +11,41 @@ namespace battletank {
 
     class EnemyTank {
     private:
+        // Members
         sf::Sprite mHullSprite;
         sf::Texture mHullTexture;
         sf::Sprite mTurretSprite;
         sf::Texture mTurretTexture;
         float mMovementSpeed = 0.5f;
         float mRotationSpeed = 1.f;
-        float mAttackCooldownMax = 10.f;
+        float mAttackCooldownMax = 8;
         float mAttackCooldown = 0.f;
         const float mAttackRateOfFire = 0.035f;
 
         // Methods
         void initSprite(const sf::Texture* hullTexture, const sf::Texture* turretTexture, float posX, float posY, float rotation);
-        void setTexture(sf::Texture const* texture) { this->mHullTexture = *texture; }
-        sf::Texture getTexture() const { return this->mHullTexture; }
-        void setTurretTexture(sf::Texture const* texture) { this->mTurretTexture = *texture; }
-        sf::Texture getTurretTexture() const { return this->mTurretTexture; }
 
     public:
         EnemyTank(const sf::Texture* hullTexture, const sf::Texture* turretTexture, float posX, float posY, float rotation);
         virtual ~EnemyTank();
 
         // Accessors
-        sf::FloatRect getGlobalBounds() const { return this->mHullSprite.getGlobalBounds(); }
-        sf::Vector2f getPosition() const { return this->mHullSprite.getPosition(); }
+        void setHullTexture(sf::Texture const* texture) { this->mHullTexture = *texture; }
+        sf::Texture getHullTexture() const { return this->mHullTexture; }
+        void setTurretTexture(sf::Texture const* texture) { this->mTurretTexture = *texture; }
+        sf::Texture getTurretTexture() const { return this->mTurretTexture; }
+        float getMovementSpeed() const { return this->mMovementSpeed; }
+        void setMovementSpeed(float movementSpeed) { this->mMovementSpeed = movementSpeed; }
+
         float getRotation() const { return this->mHullSprite.getRotation(); }
+        sf::Vector2f getPosition() const { return this->mHullSprite.getPosition(); }
+        sf::FloatRect getGlobalBounds() const { return this->mHullSprite.getGlobalBounds(); }
+
         sf::Vector2f getOrigin() const { return this->mHullSprite.getOrigin(); }
 
         // Methods
         void update();
-        void render(sf::RenderTarget* target);
+        void draw(sf::RenderTarget* target) const;
 
         void move(const float dirX, const float dirY);
         void rotate(const float degrees);

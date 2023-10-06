@@ -131,7 +131,7 @@ namespace battletank {
         }
 
         for (auto *enemyTank : this->mEnemyTanks) {
-            enemyTank->render(this->mWindow);
+            enemyTank->draw(this->mWindow);
         }
 
         this->mWindow->display();
@@ -209,7 +209,7 @@ namespace battletank {
             continue;
 
             // Check tank shell hit with player tank
-            if (this->mPlayerTank->getBoundingBox().intersects(shell->getGlobalBounds())) {
+            if (this->mPlayerTank->getGlobalBounds().intersects(shell->getGlobalBounds())) {
                 auto tankShellItr = std::ranges::find(this->mTankShells.begin(), this->mTankShells.end(), shell);
                 auto tankShellIndex = tankShellItr - this->mTankShells.begin();
 
