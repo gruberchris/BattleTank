@@ -13,15 +13,15 @@ namespace battletank {
     private:
         sf::Sprite sprite;
         sf::Vector2f direction;
-        float movementSpeed = 12.f;
+        float m_movementSpeed = 12.f;
 
     public:
-        TankShell();
         TankShell(const sf::Texture* texture, float posX, float posY, float dirX, float dirY, float rotation, float movementSpeed);
         virtual ~TankShell();
 
         // Accessors
         sf::FloatRect getGlobalBounds() const { return this->sprite.getGlobalBounds(); }
+        sf::FloatRect getBoundingBox() const { return this->sprite.getGlobalBounds(); }
 
         // Methods
         void update();

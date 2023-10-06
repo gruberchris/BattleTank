@@ -75,15 +75,16 @@ namespace battletank {
         auto hull_texture = this->textures["HULL_D_01"];
         auto gun_texture = this->textures["GUN_D_01"];
 
-        for (int i = 0; i < 10; ++i) {
+        for (int i = 0; i < 5; ++i) {
+            // TODO: randomize spawn location
             auto x = static_cast<float>(rand() % 1920);
             auto y = static_cast<float>(rand() % 1080);
+
+            // TODO: randomize rotation
             auto rotation = static_cast<float>(rand() % 360);
+
             this->enemyTanks.push_back(new EnemyTank(hull_texture, gun_texture, x, y, rotation));
         }
-
-        //this->enemyTanks.push_back(new EnemyTank(hull_texture, gun_texture, 400.f, 400.f, 0.f));
-        //this->enemyTanks.push_back(new EnemyTank(hull_texture, gun_texture, 500.f, 400.f, 45.f));
     }
 
     void Game::initPlayerTank() {
@@ -115,8 +116,8 @@ namespace battletank {
     void Game::update() {
         this->updatePollEvents();
         this->updateInput();
-        this->playerTank->update();
         this->updateTankShells();
+        this->playerTank->update();
         this->updateEnemyTanks();
     }
 
@@ -171,6 +172,11 @@ namespace battletank {
             float dirX = std::cos((rotation - 90) * toRadians);
             float dirY = std::sin((rotation - 90) * toRadians);
 
+            //auto playerTankPos = this->playerTank->getPosition();
+            //float distanceInFrontOfTank = 80.f;
+            //auto shellPosX = playerTankPos.x + (dirX * distanceInFrontOfTank);
+            //auto shellPosY = playerTankPos.y + (dirY * distanceInFrontOfTank);
+
             // Create the tank shell with the calculated direction vector
             this->tankShells.push_back(new TankShell(this->textures["TANK_SHELL"],
                                                      this->playerTank->getPosition().x,
@@ -178,27 +184,75 @@ namespace battletank {
                                                      dirX,
                                                      dirY,
                                                      rotation,
-                                                     6.f));
+                                                     12.f));
         }
     }
 
     void Game::updateTankShells() {
-        unsigned counter = 0;
+        auto counter = 0;
 
         for (auto *shell : this->tankShells) {
             shell->update();
 
             if (shell->isOutOfView(this->window)) {
+                auto tankShellItr = std::ranges::find(this->tankShells.begin(), this->tankShells.end(), shell);
+                auto tankShellIndex = tankShellItr - this->tankShells.begin();
+
                 // Delete tank shell
-                delete this->tankShells.at(counter);
+                delete this->tankShells.at(tankShellIndex);
 
                 // Cull tank shell from vector as it is out of bounds
-                this->tankShells.erase(this->tankShells.begin() + counter);
+                this->tankShells.erase(this->tankShells.begin() + tankShellIndex);
 
-                --counter;
+                continue;
             }
 
-            // std::cout << this->tankShells.size() << " tank shells remaining." << std::endl;
+            continue;
+
+            // Check tank shell hit with player tank
+            if (this->playerTank->getBoundingBox().intersects(shell->getGlobalBounds())) {
+                auto tankShellItr = std::ranges::find(this->tankShells.begin(), this->tankShells.end(), shell);
+                auto tankShellIndex = tankShellItr - this->tankShells.begin();
+
+                // Delete tank shell
+                delete this->tankShells.at(tankShellIndex);
+
+                // Cull tank shell from vector as it is out of bounds
+                this->tankShells.erase(this->tankShells.begin() + tankShellIndex);
+
+                // TODO: do damage or kill player tank
+
+                std::cout << "Player tank hit!" << std::endl;
+            }
+
+            /*
+            else {
+                // Check tank shell hit with enemy tanks
+                for (auto *enemyTank: this->enemyTanks) {
+                    if (shell->getGlobalBounds().intersects(enemyTank->getBoundingBox())) {
+                        // Check if tank shell was already deleted
+                        if (this->tankShells.size() <= counter || this->tankShells.at(counter) == nullptr) {
+                            break;
+                        }
+
+                        // Delete tank shell
+                        delete this->tankShells.at(counter);
+
+                        // Cull tank shell from vector
+                        this->tankShells.erase(this->tankShells.begin() + counter);
+
+                        // TODO: do damage or kill enemy tank
+
+                        std::cout << "Enemy tank hit!" << std::endl;
+
+                        --counter;
+                    }
+                }
+            }
+
+             */
+
+            //std::cout << this->tankShells.size() << " tank shells remaining." << std::endl;
 
             ++counter;
         }
@@ -225,7 +279,7 @@ namespace battletank {
                                                          dirX,
                                                          dirY,
                                                          rotation,
-                                                         6.f));
+                                                         12.f));
             }
 
             ++counter;

@@ -5,13 +5,7 @@
 #include "TankShell.h"
 
 namespace battletank {
-        TankShell::TankShell() {
-            this->sprite.setScale(0.5f, 0.5f);
-            this->sprite.setOrigin(this->sprite.getLocalBounds().width / 2.f, this->sprite.getLocalBounds().height / 2.f);
-            this->sprite.setPosition(0.f, 0.f);
-        }
-
-        TankShell::TankShell(const sf::Texture* texture, float posX, float posY, float dirX, float dirY, float rotation, float movementSpeed) {
+        TankShell::TankShell(const sf::Texture* texture, float posX, float posY, float dirX, float dirY, float rotation, float movementSpeed) : m_movementSpeed(movementSpeed) {
             this->sprite.setTexture(*texture);
             this->sprite.scale(0.5f, 0.5f);
             this->sprite.setOrigin(this->sprite.getLocalBounds().width / 2.f, this->sprite.getLocalBounds().height / 2.f);
@@ -20,7 +14,6 @@ namespace battletank {
 
             this->direction.x = dirX;
             this->direction.y = dirY;
-            //this->movementSpeed = movementSpeed;
         }
 
         TankShell::~TankShell() {
@@ -28,7 +21,7 @@ namespace battletank {
         }
 
         void TankShell::update() {
-            this->sprite.move(this->movementSpeed * this->direction.x, this->movementSpeed * this->direction.y);
+            this->sprite.move(this->m_movementSpeed * this->direction.x, this->m_movementSpeed * this->direction.y);
         }
 
         void TankShell::render(sf::RenderTarget* target) {

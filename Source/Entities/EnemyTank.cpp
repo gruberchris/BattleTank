@@ -7,19 +7,22 @@
 namespace battletank {
     EnemyTank::EnemyTank(sf::Texture* hull_texture, sf::Texture* turret_texture, float posX, float posY, float rotation) {
         initSprite(hull_texture, turret_texture, posX, posY, rotation);
+        this->attackCooldown = this->attackCooldownMax;
     }
 
     EnemyTank::~EnemyTank() {
 
     }
 
-    void EnemyTank::initSprite(sf::Texture* hull_texture, sf::Texture* turret_texture, float posX, float posY, float rotation) {
+    void EnemyTank::initSprite(const sf::Texture* hull_texture, const sf::Texture* turret_texture, float posX, float posY, float rotation) {
+        // Initialize tank hull
         this->hull_sprite.setTexture(*hull_texture);
         this->hull_sprite.scale(0.25f, 0.25f);
         this->hull_sprite.setOrigin(this->hull_sprite.getLocalBounds().width / 2.f, this->hull_sprite.getLocalBounds().height / 2.f);
         this->hull_sprite.setPosition(posX, posY);
         this->hull_sprite.setRotation(rotation);
 
+        // Initialize tank turret
         this->turret_sprite.setTexture(*turret_texture);
         this->turret_sprite.scale(0.25f, 0.25f);
         this->turret_sprite.setOrigin(this->turret_sprite.getLocalBounds().width / 2.f, this->turret_sprite.getLocalBounds().height / 2.f);

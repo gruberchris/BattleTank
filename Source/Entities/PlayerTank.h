@@ -14,10 +14,10 @@ namespace battletank {
         // Members
         sf::Texture hull_texture;
         sf::Sprite hull_sprite;
-        sf::Transformable hull_transform;
+        //sf::Transformable hull_transform;
         sf::Sprite turret_sprite;
         sf::Texture turret_texture;
-        sf::Transformable turret_transform;
+        //sf::Transformable turret_transform;
         float movementSpeed = 0.5f;
         float rotationSpeed = 1.f;
         float attackCooldownMax = 10.f;
@@ -29,7 +29,7 @@ namespace battletank {
         sf::Texture getTurretTexture() const { return this->turret_texture; }
         float getMovementSpeed() const { return this->movementSpeed; }
         void setMovementSpeed(float speed) { this->movementSpeed = speed; }
-        void initSprite(sf::Texture* hull_texture, sf::Texture* turret_texture, float posX, float posY, float rotation);
+        void initSprite(const sf::Texture* hull_texture, const sf::Texture* turret_texture, float posX, float posY, float rotation);
 
     protected:
         // Methods
@@ -42,8 +42,9 @@ namespace battletank {
         // Accessors
         void setTexture(sf::Texture const* t) { this->hull_texture = *t; }
         sf::Texture getTexture() const { return this->hull_texture; }
-        float getRotation() const { return this->hull_transform.getRotation(); }
-        sf::Vector2f getPosition() const { return this->hull_transform.getPosition(); }
+        float getRotation() const { return this->hull_sprite.getRotation(); }
+        sf::Vector2f getPosition() const { return this->hull_sprite.getPosition(); }
+        sf::FloatRect getBoundingBox() const { return this->hull_sprite.getGlobalBounds(); }
 
         // Methods
         void update();

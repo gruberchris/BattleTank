@@ -21,7 +21,6 @@ namespace battletank {
         sf::Texture hull_texture;
         sf::Sprite turret_sprite;
         sf::Texture turret_texture;
-        //sf::Vector2f direction;
         float movementSpeed = 0.5f;
         float rotationSpeed = 1.f;
         float attackCooldownMax = 10.f;
@@ -29,7 +28,7 @@ namespace battletank {
         const float attackRateOfFire = 0.035f;
 
         // Methods
-        void initSprite(sf::Texture* hull_texture, sf::Texture* turret_texture, float posX, float posY, float rotation);
+        void initSprite(const sf::Texture* hull_texture, const sf::Texture* turret_texture, float posX, float posY, float rotation);
         void setTexture(sf::Texture const* t) { this->hull_texture = *t; }
         sf::Texture getTexture() const { return this->hull_texture; }
         void setTurretTexture(sf::Texture const* t) { this->turret_texture = *t; }
@@ -44,6 +43,7 @@ namespace battletank {
         sf::Vector2f getPosition() const { return this->hull_sprite.getPosition(); }
         float getRotation() const { return this->hull_sprite.getRotation(); }
         sf::Vector2f getOrigin() const { return this->hull_sprite.getOrigin(); }
+        sf::FloatRect getBoundingBox() const { return this->hull_sprite.getGlobalBounds(); }
 
         // Methods
         void update();
