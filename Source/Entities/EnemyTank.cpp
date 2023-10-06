@@ -5,29 +5,27 @@
 #include "EnemyTank.h"
 
 namespace battletank {
-    EnemyTank::EnemyTank(sf::Texture* hull_texture, sf::Texture* turret_texture, float posX, float posY, float rotation) {
-        initSprite(hull_texture, turret_texture, posX, posY, rotation);
-        this->attackCooldown = this->attackCooldownMax;
+    EnemyTank::EnemyTank(const sf::Texture* hullTexture, const sf::Texture* turretTexture, float posX, float posY, float rotation) {
+        initSprite(hullTexture, turretTexture, posX, posY, rotation);
+        this->mAttackCooldown = this->mAttackCooldownMax;
     }
 
-    EnemyTank::~EnemyTank() {
+    EnemyTank::~EnemyTank() = default;
 
-    }
-
-    void EnemyTank::initSprite(const sf::Texture* hull_texture, const sf::Texture* turret_texture, float posX, float posY, float rotation) {
+    void EnemyTank::initSprite(const sf::Texture* hullTexture, const sf::Texture* turretTexture, float posX, float posY, float rotation) {
         // Initialize tank hull
-        this->hull_sprite.setTexture(*hull_texture);
-        this->hull_sprite.scale(0.25f, 0.25f);
-        this->hull_sprite.setOrigin(this->hull_sprite.getLocalBounds().width / 2.f, this->hull_sprite.getLocalBounds().height / 2.f);
-        this->hull_sprite.setPosition(posX, posY);
-        this->hull_sprite.setRotation(rotation);
+        this->mHullSprite.setTexture(*hullTexture);
+        this->mHullSprite.scale(0.25f, 0.25f);
+        this->mHullSprite.setOrigin(this->mHullSprite.getLocalBounds().width / 2.f, this->mHullSprite.getLocalBounds().height / 2.f);
+        this->mHullSprite.setPosition(posX, posY);
+        this->mHullSprite.setRotation(rotation);
 
         // Initialize tank turret
-        this->turret_sprite.setTexture(*turret_texture);
-        this->turret_sprite.scale(0.25f, 0.25f);
-        this->turret_sprite.setOrigin(this->turret_sprite.getLocalBounds().width / 2.f, this->turret_sprite.getLocalBounds().height / 2.f);
-        this->turret_sprite.setPosition(this->hull_sprite.getPosition());
-        this->turret_sprite.setRotation(rotation);
+        this->mTurretSprite.setTexture(*turretTexture);
+        this->mTurretSprite.scale(0.25f, 0.25f);
+        this->mTurretSprite.setOrigin(this->mTurretSprite.getLocalBounds().width / 2.f, this->mTurretSprite.getLocalBounds().height / 2.f);
+        this->mTurretSprite.setPosition(this->mHullSprite.getPosition());
+        this->mTurretSprite.setRotation(rotation);
     }
 
     void EnemyTank::update() {
@@ -35,36 +33,36 @@ namespace battletank {
     }
 
     void EnemyTank::updateAttack() {
-        if (this->attackCooldown < this->attackCooldownMax) {
+        if (this->mAttackCooldown < this->mAttackCooldownMax) {
             // This controls the attack rate. The smaller attackRateOfFire is, the slower the attack rate is because
             // it is taking more time to increment attackCooldown to equal attackCooldownMax.
-            this->attackCooldown += attackRateOfFire;
+            this->mAttackCooldown += mAttackRateOfFire;
         }
     }
 
     bool EnemyTank::canAttack() {
-        if (this->attackCooldown < this->attackCooldownMax) {
+        if (this->mAttackCooldown < this->mAttackCooldownMax) {
             return false;
         }
 
         // TODO: move this to a proper tank "shoot" method
-        this->attackCooldown = 0.f;
+        this->mAttackCooldown = 0.f;
 
         return true;
     }
 
     void EnemyTank::render(sf::RenderTarget *target) {
-        target->draw(this->hull_sprite);
-        target->draw(this->turret_sprite);
+        target->draw(this->mHullSprite);
+        target->draw(this->mTurretSprite);
     }
 
     void EnemyTank::move(const float dirX, const float dirY) {
-        this->hull_sprite.move(this->movementSpeed * dirX, this->movementSpeed * dirY);
-        this->turret_sprite.move(this->movementSpeed * dirX, this->movementSpeed * dirY);
+        this->mHullSprite.move(this->mMovementSpeed * dirX, this->mMovementSpeed * dirY);
+        this->mTurretSprite.move(this->mMovementSpeed * dirX, this->mMovementSpeed * dirY);
     }
 
     void EnemyTank::rotate(const float degrees) {
-        this->hull_sprite.rotate(this->rotationSpeed * degrees);
-        this->turret_sprite.rotate(this->rotationSpeed * degrees);
+        this->mHullSprite.rotate(this->mRotationSpeed * degrees);
+        this->mTurretSprite.rotate(this->mRotationSpeed * degrees);
     }
 } // battletank
