@@ -40,11 +40,6 @@ namespace battletank {
     }
 
     void Game::initTextures() {
-        this->mTextures["TANK"] = new sf::Texture();
-        if (!this->mTextures["TANK"]->loadFromFile("../Source/Resources/Textures/Tank.png")) {
-            std::cout << "ERROR::GAME::INIT_TEXTURES::Failed to load TANK texture." << std::endl;
-        }
-
         this->mTextures["TANK_SHELL"] = new sf::Texture();
         if (!this->mTextures["TANK_SHELL"]->loadFromFile("../Source/Resources/Textures/Light_Shell.png")) {
             std::cout << "ERROR::GAME::INIT_TEXTURES::Failed to load TANK_SHELL texture." << std::endl;
@@ -247,8 +242,6 @@ namespace battletank {
     }
 
     void Game::updateEnemyTanks() {
-        unsigned counter = 0;
-
         for (auto *enemyTank : this->mEnemyTanks) {
             enemyTank->update();
 
@@ -271,8 +264,6 @@ namespace battletank {
                                                           rotation,
                                                           12.f));
             }
-
-            ++counter;
         }
     }
 } // battletank
