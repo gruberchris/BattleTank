@@ -65,4 +65,49 @@ namespace battletank {
         this->mHullSprite.rotate(this->mRotationSpeed * degrees);
         this->mTurretSprite.rotate(this->mRotationSpeed * degrees);
     }
+
+    bool EnemyTank::checkOBBIntersection(sf::FloatRect otherBounds) const {
+        // Check for Oriented Bounding Box (OBB) intersection
+        // https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection
+        // https://stackoverflow.com/questions/10962379/how-to-check-intersection-between-2-rotated-rectangles
+        // https://stackoverflow.com/questions/18792207/rotate-a-bounding-box
+
+        // Get the center of the otherBounds
+        const float otherBoundsCenterX = otherBounds.left + otherBounds.width / 2.f;
+        const float otherBoundsCenterY = otherBounds.top + otherBounds.height / 2.f;
+
+        // Get the center of the hullBounds
+        const float hullBoundsCenterX = this->mHullSprite.getPosition().x;
+        const float hullBoundsCenterY = this->mHullSprite.getPosition().y;
+
+        // Get the angle between the two rectangles
+        const float angle = this->mHullSprite.getRotation() * (float)M_PI / 180.f;
+
+        // Get the distance between the two rectangles
+        const float distanceX = otherBoundsCenterX - hullBoundsCenterX;
+        const float distanceY = otherBoundsCenterY - hullBoundsCenterY;
+
+        // Rotate the distance around the origin
+        const float rotatedDistanceX = std::cos(angle) * distanceX + std::sin(angle) * distanceY;
+        const float rotatedDistanceY = -std::sin(angle) * distanceX + std::cos(angle) * distanceY;
+
+        const float kBoundingBoxScale = 6.f;
+
+        // Check if the rotated distance is less than the sum of the half widths and half heights
+        if (std::abs(rotatedDistanceX) < this->mHullSprite.getGlobalBounds().width / kBoundingBoxScale + otherBounds.width / kBoundingBoxScale &&
+            std::abs(rotatedDistanceY) < this->mHullSprite.getGlobalBounds().height / kBoundingBoxScale + otherBounds.height / kBoundingBoxScale) {
+            return true;
+        }
+
+        return false;
+    }
+
+    sf::Vector2f EnemyTank::getMuzzlePosition() const {
+        const float kMuzzleOffset = 20.f;
+        const float dirX = std::cos((this->mTurretSprite.getRotation() - 90) * (float)M_PI / 180.f);
+        const float dirY = std::sin((this->mTurretSprite.getRotation() - 90) * (float)M_PI / 180.f);
+        const float muzzlePosX = this->mTurretSprite.getPosition().x + dirX * kMuzzleOffset;
+        const float muzzlePosY = this->mTurretSprite.getPosition().y + dirY * kMuzzleOffset;
+        return {muzzlePosX, muzzlePosY};
+    }
 } // battletank

@@ -18,7 +18,7 @@ namespace battletank {
         sf::Texture mTurretTexture;
         float mMovementSpeed = 0.5f;
         float mRotationSpeed = 1.f;
-        float mAttackCooldownMax = 8;
+        float mAttackCooldownMax = 6.5f;
         float mAttackCooldown = 0.f;
         const float mAttackRateOfFire = 0.035f;
 
@@ -51,7 +51,8 @@ namespace battletank {
         void rotate(const float degrees);
         void updateAttack();
         bool canAttack();
-
+        sf::Vector2f getMuzzlePosition() const;
+        bool checkOBBIntersection(sf::FloatRect otherBounds) const;
 
     };
 

@@ -172,15 +172,12 @@ namespace battletank {
             float dirX = std::cos((rotation - 90) * kToRadians);
             float dirY = std::sin((rotation - 90) * kToRadians);
 
-            //auto playerTankPos = this->playerTank->getPosition();
-            //float distanceInFrontOfTank = 80.f;
-            //auto shellPosX = playerTankPos.x + (dirX * distanceInFrontOfTank);
-            //auto shellPosY = playerTankPos.y + (dirY * distanceInFrontOfTank);
+            auto muzzlePos = this->mPlayerTank->getMuzzlePosition();
 
             // Create the tank shell with the calculated direction vector
             this->mTankShells.push_back(new TankShell(this->mTextures["TANK_SHELL"],
-                                                      this->mPlayerTank->getPosition().x,
-                                                      this->mPlayerTank->getPosition().y,
+                                                      muzzlePos.x,
+                                                      muzzlePos.y,
                                                       dirX,
                                                       dirY,
                                                       rotation,
@@ -205,11 +202,13 @@ namespace battletank {
                 continue;
             }
 
-            // TODO: Fix sprite collision detection. Projectiles are colliding with the tank that fired them
-            continue;
+            // TODO: Fix sprite collision detection.
+            //  Projectiles are colliding with the tank that fired them.
+            //  Bounding boxes are very large around the sprite. Looks about 100x100 pixels or so.
+            //continue;
 
             // Check tank shell hit with player tank
-            if (this->mPlayerTank->getGlobalBounds().intersects(shell->getGlobalBounds())) {
+            if (this->mPlayerTank->checkOBBIntersection(shell->getGlobalBounds())) {
                 auto tankShellItr = std::ranges::find(this->mTankShells.begin(), this->mTankShells.end(), shell);
                 auto tankShellIndex = tankShellItr - this->mTankShells.begin();
 
@@ -223,33 +222,25 @@ namespace battletank {
 
                 std::cout << "Player tank hit!" << std::endl;
             }
-
-            /*
             else {
                 // Check tank shell hit with enemy tanks
-                for (auto *enemyTank: this->enemyTanks) {
-                    if (shell->getGlobalBounds().intersects(enemyTank->getBoundingBox())) {
-                        // Check if tank shell was already deleted
-                        if (this->tankShells.size() <= counter || this->tankShells.at(counter) == nullptr) {
-                            break;
-                        }
+                for (auto *enemyTank: this->mEnemyTanks) {
+                    if (enemyTank->checkOBBIntersection(shell->getGlobalBounds())) {
+                        auto tankShellItr = std::ranges::find(this->mTankShells.begin(), this->mTankShells.end(), shell);
+                        auto tankShellIndex = tankShellItr - this->mTankShells.begin();
 
                         // Delete tank shell
-                        delete this->tankShells.at(counter);
+                        delete this->mTankShells.at(tankShellIndex);
 
-                        // Cull tank shell from vector
-                        this->tankShells.erase(this->tankShells.begin() + counter);
+                        // Cull tank shell from vector as it is out of bounds
+                        this->mTankShells.erase(this->mTankShells.begin() + tankShellIndex);
 
                         // TODO: do damage or kill enemy tank
 
                         std::cout << "Enemy tank hit!" << std::endl;
-
-                        --counter;
                     }
                 }
             }
-
-             */
 
             //std::cout << this->tankShells.size() << " tank shells remaining." << std::endl;
         }
@@ -269,10 +260,12 @@ namespace battletank {
                 float dirX = std::cos((rotation - 90) * kToRadians);
                 float dirY = std::sin((rotation - 90) * kToRadians);
 
+                auto muzzlePos = enemyTank->getMuzzlePosition();
+
                 // Create the tank shell with the calculated direction vector
                 this->mTankShells.push_back(new TankShell(this->mTextures["TANK_SHELL"],
-                                                          enemyTank->getPosition().x,
-                                                          enemyTank->getPosition().y,
+                                                          muzzlePos.x,
+                                                          muzzlePos.y,
                                                           dirX,
                                                           dirY,
                                                           rotation,

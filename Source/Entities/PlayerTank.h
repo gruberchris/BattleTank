@@ -18,13 +18,14 @@ namespace battletank {
         sf::Texture mTurretTexture;
         float mMovementSpeed = 0.5f;
         float mRotationSpeed = 1.f;
-        float mAttackCooldownMax = 8;
+        float mAttackCooldownMax = 6.5f;
         float mAttackCooldown = 0.f;
         const float mAttackRateOfFire = 0.035f;
 
+        sf::Rect<float> mHullBounds;
+
         // Methods
         void initSprite(const sf::Texture* hullTexture, const sf::Texture* turretTexture, float posX, float posY, float rotation);
-
 
     protected:
         // Methods
@@ -42,6 +43,9 @@ namespace battletank {
         float getMovementSpeed() const { return this->mMovementSpeed; }
         void setMovementSpeed(float movementSpeed) { this->mMovementSpeed = movementSpeed; }
 
+        void setHullBounds(sf::Rect<float> hullBounds) { this->mHullBounds = hullBounds; }
+        sf::FloatRect getHullBounds() const { return this->mHullSprite.getTransform().transformRect(mHullBounds); }
+
         float getRotation() const { return this->mHullSprite.getRotation(); }
         sf::Vector2f getPosition() const { return this->mHullSprite.getPosition(); }
         sf::FloatRect getGlobalBounds() const { return this->mHullSprite.getGlobalBounds(); }
@@ -55,6 +59,8 @@ namespace battletank {
         void moveBackward();
         void move(float dirX, float dirY);
         void rotate(float degrees);
+        sf::Vector2f getMuzzlePosition() const;
+        bool checkOBBIntersection(sf::FloatRect otherBounds) const;
     };
 
 } // battletank
